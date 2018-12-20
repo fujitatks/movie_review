@@ -55,7 +55,13 @@ class Scraping
       # p page
       #⑩image_urlがあるsrc要素のみを取り出す
       image_url = page.at('.entry-content img')[:src] if page.at('.entry-content img') 
-      p image_url
+      director = page.at('.director span').inner_text if page.at('.director span')
+      detail = page.at('.entry-content p').inner_text if page.at('.entry-content p')
+      open_date = page.at('.date span').inner_text if page.at('.date span')
+      puts director
+      puts detail
+      puts open_date
+      # p image_url
       # p elements2
       # elements2.each do |ele|
       #   p ele
@@ -63,6 +69,9 @@ class Scraping
       # end
     #①①newメソッド、saveメソッドを使い、 スクレイピングした「映画タイトル」と「作品画像のURL」をproductsテーブルに保存
       product = Product.where(title: title, image_url: image_url).first_or_initialize
+      product.director = director
+      product.detail = detail
+      product.open_date = open_date
       product.save
     end
   end
